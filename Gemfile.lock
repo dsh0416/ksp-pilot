@@ -1,0 +1,23 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colorize (0.8.1)
+    google-protobuf (3.14.0)
+    krpc (0.4.1)
+      colorize (~> 0.8)
+      google-protobuf (~> 3.11)
+      nokogiri (~> 1.10)
+    mini_portile2 (2.5.0)
+    nokogiri (1.11.1)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
+    racc (1.5.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  krpc
+
+BUNDLED WITH
+   2.1.4
