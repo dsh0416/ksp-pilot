@@ -14,6 +14,7 @@ class LandProcess
     puts "Retard."
     @control.sas = false
     @control.throttle = 0.0
+    @control.brakes = true
     loop do
       orbit = @vessel.flight(@vessel.orbit.body.reference_frame)
       surface = @vessel.flight(@vessel.surface_reference_frame)
@@ -21,9 +22,9 @@ class LandProcess
       target_heading = Geometric.target_heading(orbit.latitude, orbit.longitude, @latitude, @longitude)
       delta_heading = Geometric.delta_heading(surface.heading, target_heading)
 
-      yaw = @yaw_controller.trigger(delta_heading, surface.yaw)
+      yaw = @yaw_controller.trigger(delta_heading, surface.heading)
       @control.yaw = yaw
-      pitch = @pitch_controller.trigger(0, surface.pitch)
+      pitch = @pitch_controller.trigger(3, surface.pitch)
       @control.pitch = pitch
       sleep 0.01
     end

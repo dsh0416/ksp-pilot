@@ -45,7 +45,6 @@ class ApproachProcess
       @control.roll = roll
 
       if orbit.mean_altitude + @height < 500
-        @control.brakes = true
         @control.gear = true
       end
       sleep 0.01
