@@ -20,6 +20,7 @@ class TakeoffProcess
       break unless orbit.speed < @vr
       throttle = @throttle_controller.trigger(@velocity, orbit.speed)
       @control.throttle = throttle
+      sleep 0.01
     end
 
     # Rotate
@@ -35,8 +36,9 @@ class TakeoffProcess
 
       pitch = @pitch_controller.trigger(10, surface.pitch)
       @control.pitch = pitch
+      sleep 0.01
     end
 
-    puts "Takeoff Process Finished."
+    puts "Takeoff Procedure Finished."
   end
 end

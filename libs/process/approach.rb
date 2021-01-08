@@ -1,4 +1,4 @@
-class WaypointProcess
+class ApproachProcess
   def initialize(vessel, velocity, height, latitude, longitude)
     @vessel = vessel
     @control = vessel.control
@@ -18,12 +18,15 @@ class WaypointProcess
     loop do
       orbit = @vessel.flight(@vessel.orbit.body.reference_frame)
       surface = @vessel.flight(@vessel.surface_reference_frame)
-      break if (orbit.latitude - @latitude).abs < 1e-2 and (orbit.longitude - @longitude).abs < 1e-2
+      break if orbit.mean_altitude < @height
 
       throttle = @throttle_controller.trigger(@velocity, orbit.speed)
       @control.throttle = throttle
 
-      pitch = @pitch_controller.trigger(@height, orbit.mean_altitude)
+      distance = Geometric.distance(orbit.latitude, orbit.longitude, @latitude, @longitude)
+      target_height = Math.tan(3.0 * Math::PI / 180.0) * distance + @height
+
+      pitch = @pitch_controller.trigger(target_height, orbit.mean_altitude)
       if pitch > 0.0 and surface.pitch > 10
         pitch = -0.1
       elsif pitch < 0.0 and surface.pitch < -5
@@ -40,9 +43,12 @@ class WaypointProcess
 
       roll = @roll_controller.trigger(bank_angle, surface.roll)
       @control.roll = roll
+
+      if orbit.mean_altitude + @height < 500
+        @control.brakes = true
+        @control.gear = true
+      end
       sleep 0.01
     end
-
-    puts "Waypoint lat: #{@latitude}, lng: #{@longitude} Reached."
   end
 end
