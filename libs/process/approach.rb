@@ -14,6 +14,8 @@ class ApproachProcess
   end
 
   def run
+    puts "Approaching..."
+
     @control.sas = false
     loop do
       orbit = @vessel.flight(@vessel.orbit.body.reference_frame)
@@ -44,7 +46,7 @@ class ApproachProcess
       roll = @roll_controller.trigger(bank_angle, surface.roll)
       @control.roll = roll
 
-      if orbit.mean_altitude + @height < 500
+      if orbit.mean_altitude < 500 + @height
         @control.gear = true
       end
       sleep 0.01

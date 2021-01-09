@@ -25,7 +25,7 @@ KRPC.connect do |client|
   # Final
   WaypointProcess.new(vessel, 120, 1000, -0.04833333, -76).run
   # Approach
-  ApproachProcess.new(vessel, 100, 80, -0.04833333, -74.72389).run
+  ApproachProcess.new(vessel, 100, 100, -0.04833333, -74.72389).run
   # Land
   LandProcess.new(vessel, -0.05, -74.52389).run
 end
