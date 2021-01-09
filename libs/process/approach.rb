@@ -1,7 +1,8 @@
 class ApproachProcess
-  def initialize(vessel, velocity, height, latitude, longitude)
+  def initialize(vessel, velocity, height, latitude, longitude, gear=true)
     @vessel = vessel
     @control = vessel.control
+    @gear = gear
 
     @velocity = velocity
     @height = height
@@ -30,9 +31,9 @@ class ApproachProcess
 
       pitch = @pitch_controller.trigger(target_height, orbit.mean_altitude)
       if pitch > 0.0 and surface.pitch > 10
-        pitch = -0.1
+        pitch = -1.0
       elsif pitch < 0.0 and surface.pitch < -5
-        pitch = 0.1
+        pitch = 1.0
       end
       @control.pitch = pitch
 
@@ -46,7 +47,7 @@ class ApproachProcess
       roll = @roll_controller.trigger(bank_angle, surface.roll)
       @control.roll = roll
 
-      if orbit.mean_altitude < 500 + @height
+      if @gear and orbit.mean_altitude < 500 + @height
         @control.gear = true
       end
       sleep 0.01

@@ -25,9 +25,9 @@ class WaypointProcess
 
       pitch = @pitch_controller.trigger(@height, orbit.mean_altitude)
       if pitch > 0.0 and surface.pitch > 10
-        pitch = -0.1
+        pitch = -1.0
       elsif pitch < 0.0 and surface.pitch < -5
-        pitch = 0.1
+        pitch = 1.0
       end
       @control.pitch = pitch
 
